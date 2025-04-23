@@ -1,0 +1,126 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "URL Shortener API",
+      "version": "1.0.0",
+      "description": "API  documentation for urlshortener made with Typescript and express "
+    },
+    "paths": {
+      "/api/shortUrl": {
+        "post": {
+          "summary": "Create a short URL",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "originalUrl": {
+                      "type": "string",
+                      "example": "https://example.com"
+                    }
+                  },
+                  "required": ["originalUrl"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Short URL created successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "shortUrl": {
+                        "type": "string",
+                        "example": "http://localhost:5001/api/shortUrl/abc123"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "get": {
+          "summary": "Get all short URLs",
+          "responses": {
+            "200": {
+              "description": "List of all short URLs",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string" },
+                        "originalUrl": { "type": "string" },
+                        "shortUrl": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/shortUrl/{id}": {
+        "get": {
+          "summary": "Get one short URL by ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Short URL details",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string" },
+                      "originalUrl": { "type": "string" },
+                      "shortUrl": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "URL not found"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete a short URL by ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "URL deleted successfully"
+            },
+            "404": {
+              "description": "URL not found"
+            }
+          }
+        }
+      }
+    }
+  }
+  
