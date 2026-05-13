@@ -1,18 +1,23 @@
 import * as React from 'react';
 
-interface IHeaderProps {
-}
+interface IHeaderProps {}
 
 const Header: React.FunctionComponent<IHeaderProps> = () => {
   return (
-    <div className='bg-slate-900  pb-20'>
-        <div className='container p-2 mx-auto'>
-            <div className='py-5 flex'>
-              <div className='px-1'><img src="/snap.png"  className='w-10 h-10' /></div>
-                <div className='text-4xl font-sans  text-blue-200 '>SnapLink</div>
+    <nav className='fixed top-0 left-0 right-0 z-50 glass-card border-none rounded-none'>
+        <div className='container mx-auto px-6 py-4'>
+            <div className='flex items-center justify-between'>
+                <div className='flex items-center gap-3 group cursor-pointer'>
+                    <div className='p-2 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl shadow-lg group-hover:scale-110 transition-transform'>
+                        <img src="/snap.png" className='w-6 h-6 invert brightness-0' alt="Logo" />
+                    </div>
+                    <span className='text-3xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600'>
+                      SnapLink
+                    </span>
+                </div>
             </div>
         </div>
-    </div>
+    </nav>
   );
 };
 
