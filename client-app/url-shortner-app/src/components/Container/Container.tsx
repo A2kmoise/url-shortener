@@ -27,7 +27,7 @@ React.useEffect(() => {
 }, [reload]);
 
   return(
-<div className='bg-slate-900'>
+<div className='min-h-screen flex flex-col'>
 <FormContainer updateReloadState={updateReloadState}/>
 <DataTable  updateReloadState={updateReloadState} data={data}/>
 </div>
