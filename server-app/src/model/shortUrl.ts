@@ -4,11 +4,12 @@ import { nanoid } from "nanoid";                                      //generati
 const shortUrlSchema = new mongoose.Schema({
   fullUrl: {
     type: String,
-    require: true
+    required: true
   },
   shortUrl: {
     type: String,
     required: true,
+    unique: true,
     default: () => nanoid().substring(0, 10),
   },
   clicks: {
