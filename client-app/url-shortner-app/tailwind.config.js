@@ -7,8 +7,8 @@ export default {
         banner: "url('./src/assets/bg.jpg')",
       },
       fontFamily: {
-        sans: ['Roboto Flex','sans-serif'],
-    },
+        sans: ['Urbanist', 'sans-serif'],
+      },
     },
   },
   plugins: [],
