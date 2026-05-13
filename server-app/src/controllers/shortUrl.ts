@@ -11,8 +11,7 @@ export const createUrl = async (
         const urlFound = await urlModel.find({fullUrl});
 
         if (urlFound.length > 0){
-            res.status(409);
-            res.send(urlFound);
+            res.status(200).send(urlFound[0]);
         } else {
             const shortUrl = await urlModel.create({fullUrl});
             res.status(201).send(shortUrl);
@@ -27,12 +26,8 @@ export const getAllUrl = async (
     res:express.Response
 ) => {
     try {
-         const shortUrls = await urlModel.find().sort({ createdAt: -1 });
-    if ( shortUrls.length < 0 ){
-        res.status(404).send({message:"ShortUrls not found"});
-    }else{
+        const shortUrls = await urlModel.find().sort({ createdAt: -1 });
         res.status(200).send(shortUrls);
-    }
     } catch (error) {
         res.status(500).send({message:"Maybe something went wrong!"});   
     }
@@ -48,7 +43,7 @@ export const getUrl = async (
         res.status(404).send({message:"Not found"});
     }else{
         shortUrl.clicks++;
-        shortUrl.save();
+        await shortUrl.save();
         res.redirect(`${shortUrl.fullUrl}`)
     } 
     } catch (error) {
