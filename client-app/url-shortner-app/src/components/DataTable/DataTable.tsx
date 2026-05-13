@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
 import { UrlData } from '../../interface/UrlData';
 import { serverUrl } from '../../helpers/Constants';
 import axios from 'axios';
@@ -11,92 +10,109 @@ interface IDataTableProps {
 
 const DataTable: React.FunctionComponent<IDataTableProps> = (props) => {
     const { data , updateReloadState} = props;
-    console.log("Data in DataTable is ", data); 
-    const renderTableData = () => {
-        return data.map((item) => {
-            return (
-                <tr
-                 key={item._id} className='border-b text-white bg-gray-600 hover:bg-gray-50 hover:text-gray-600 '>
-                    <td className='px-6 py-3 break-words'>
-                    <Link to={item.fullUrl} target='_blank' rel='noreferrer noopener'>
-                    {item.fullUrl}
-                    </Link>
-                    </td>
-                    <td className='px-6 py-3 '>
-                    <Link to={`${serverUrl}/shortUrl/${item.shortUrl}`} target='_blank' rel='noreferrer noopener'>
-                    {item.shortUrl}
-                    </Link>
-                    </td>
-                    <td className='px-6 py-3'> {item.clicks}</td>
-                    <td className='px-6 py-3'>
-                        <div className='flex content-center'>
-                            <div className='cursor-pointer px-2'
-                            onClick={ () => copyToClipboard(item.shortUrl)}>
-  <svg xmlns="http://www.w3.org/2000/svg" 
-  viewBox="0 0 24 24" 
-  fill="blue"
-   className="size-6">
-  <path 
-  fillRule="evenodd" 
-  d="M7.502 6h7.128A3.375 3.375 0 0 1 18 9.375v9.375a3 3 0 0 0 3-3V6.108c0-1.505-1.125-2.811-2.664-2.94a48.972 48.972 0 0 0-.673-.05A3 3 0 0 0 15 1.5h-1.5a3 3 0 0 0-2.663 1.618c-.225.015-.45.032-.673.05C8.662 3.295 7.554 4.542 7.502 6ZM13.5 3A1.5 1.5 0 0 0 12 4.5h4.5A1.5 1.5 0 0 0 15 3h-1.5Z"
-   clipRule="evenodd" />
-  <path 
-  fillRule="evenodd" 
-  d="M3 9.375C3 8.339 3.84 7.5 4.875 7.5h9.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 0 1 3 20.625V9.375ZM6 12a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V12Zm2.25 0a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75ZM6 15a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V15Zm2.25 0a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75ZM6 18a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V18Zm2.25 0a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75Z" 
-  clipRule="evenodd" />
-</svg>
-</div>
-
-
-<div className='cursor-pointer px-2' onClick={ () => deleteUrl(item._id)}>
-<svg
- xmlns="http://www.w3.org/2000/svg"
- viewBox="0 0 24 24" 
- fill="red"
- className="size-6">
-<path 
-fillRule="evenodd"
- d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
- clipRule="evenodd" />
-</svg>
-</div>
-</div>
-</td>
-                </tr>
-            )
-        })
-    };
+    
     const copyToClipboard = async (url:string) => {
        try {
-        await navigator.clipboard.writeText(`${serverUrl}/shortUrl/${url}`);
-        alert(`URL copied: ${serverUrl}/shortUrl/${url}`);
-       // window.location.reload();
+        const fullShortUrl = `${serverUrl}/shortUrl/${url}`;
+        await navigator.clipboard.writeText(fullShortUrl);
+        alert(`URL copied: ${fullShortUrl}`);
        } catch (error) {
         console.log(error);
        } 
     };
+
     const deleteUrl = async (id:string) => {
-        const response = await axios.delete(`${serverUrl}/shortUrl/${id}`);
-        console.log(response);
-        updateReloadState();
+        try {
+            await axios.delete(`${serverUrl}/shortUrl/${id}`);
+            updateReloadState();
+        } catch (error) {
+            console.log(error);
+        }
     }
-  return (
-    <div className='container mx-auto pt-5 pb-10'>
-        <div className='relative overflow-x-auto shadow-sm sm:rounded-lg'>
-            <table className='w-full table-fixed text-sm text-left rtl:text-right text-gray-500'>
-                <thead className='text-md uppercase text-gray-300 bg-gray-700'>
-                    <tr>
-                       <th scope='col' className='px-6 py-3 w-6/12'>FullUrl</th>
-                       <th scope='col' className='px-6 py-3 w-6/12'>ShortUrl</th>
-                       <th scope='col' className='px-6 py-3 w-6/12'>Clicks</th>
-                       <th scope='col' className='px-6 py-3 w-6/12'>Action</th>
-                    </tr>
-                </thead>
-                <tbody>{renderTableData()}</tbody>
-            </table>
+
+    const renderTableData = () => {
+        return data.map((item) => {
+            return (
+                <tr key={item._id} className='group hover:bg-white/[0.03] transition-all border-b border-white/5 last:border-0'>
+                    <td className='px-8 py-6 align-middle'>
+                        <div className='flex flex-col gap-1.5 max-w-[300px] md:max-w-[500px]'>
+                            <a href={item.fullUrl} target='_blank' rel='noreferrer noopener' className='text-slate-200 hover:text-blue-400 truncate font-semibold transition-colors text-base'>
+                                {item.fullUrl}
+                            </a>
+                            <div className='flex items-center gap-2'>
+                                <span className='text-[10px] text-slate-500 uppercase tracking-[0.2em] font-extrabold'>Source Node</span>
+                                <div className='h-px w-8 bg-slate-800'></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td className='px-8 py-6 align-middle'>
+                        <div className='flex items-center'>
+                            <a href={`${serverUrl}/shortUrl/${item.shortUrl}`} target='_blank' rel='noreferrer noopener' className='text-blue-400 font-bold text-lg hover:text-blue-300 transition-colors inline-block'>
+                                {item.shortUrl}
+                            </a>
+                        </div>
+                    </td>
+                    <td className='px-8 py-6 align-middle'>
+                        <div className='flex items-center'>
+                            <div className='px-4 py-1.5 bg-blue-500/10 rounded-full text-[11px] font-black text-blue-400 border border-blue-500/20 uppercase tracking-widest'>
+                                {item.clicks} Interactions
+                            </div>
+                        </div>
+                    </td>
+                    <td className='px-8 py-6 align-middle'>
+                        <div className='flex items-center gap-4 justify-end opacity-20 group-hover:opacity-100 transition-opacity'>
+                            <button 
+                                onClick={() => copyToClipboard(item.shortUrl)}
+                                className='p-2.5 bg-slate-800 hover:bg-blue-600 rounded-xl text-white transition-all shadow-lg hover:shadow-blue-500/40'
+                                title="Copy Secure Link"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                                </svg>
+                            </button>
+                            <button 
+                                onClick={() => deleteUrl(item._id)}
+                                className='p-2.5 bg-slate-800 hover:bg-red-600 rounded-xl text-white transition-all shadow-lg hover:shadow-red-500/40'
+                                title="Wipe Data"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            )
+        })
+    };
+
+    return (
+        <div className='container mx-auto px-6 pb-32'>
+            <div className='glass-card rounded-[2.5rem] border-white/5 overflow-hidden shadow-2xl'>
+                <div className='overflow-x-auto'>
+                    <table className='w-full text-sm text-left'>
+                        <thead className='text-[10px] uppercase tracking-[0.4em] text-slate-500 bg-slate-950/50 border-b border-white/5'>
+                            <tr>
+                                <th scope='col' className='px-8 py-7 font-black'>Digital Destination</th>
+                                <th scope='col' className='px-8 py-7 font-black'>Neural Link</th>
+                                <th scope='col' className='px-8 py-7 font-black'>Activity Metrics</th>
+                                <th scope='col' className='px-8 py-7 font-black text-right'>Control</th>
+                            </tr>
+                        </thead>
+                        <tbody className='divide-y divide-white/5'>
+                            {data.length > 0 ? renderTableData() : (
+                                <tr>
+                                    <td colSpan={4} className='px-8 py-32 text-center text-slate-600 font-bold uppercase tracking-[0.2em] italic'>
+                                        Initializing system... Please input a URL to generate nodes.
+                                    </td >
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-    </div>
-  );
+    );
 };
 
 export default DataTable;
